@@ -72,5 +72,4 @@ func TestNewProvider(t *testing.T) {
 			assert.Equal(t, ttp.wantType, provider != nil, "Unexpected provider type")
 		})
 	}
-
 }
