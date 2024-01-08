@@ -7,7 +7,8 @@ setup() {
   start_vault
 
   setup_pod
-     
+  docker-compose logs
+  docker-compose ps   
   run go build
   assert_success
 }

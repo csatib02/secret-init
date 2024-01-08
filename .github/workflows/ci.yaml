@@ -250,7 +250,3 @@ jobs:
 
       - name: Test
         run: nix develop --impure .#ci -c make test-e2e
-
-      - name: Debug Docker Containers
-        run: |
-          docker ps -a
