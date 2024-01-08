@@ -262,6 +262,9 @@ jobs:
       - name: Prepare Nix shell
         run: nix develop --impure .#ci
 
+      - name: Debug Container Name
+        run: "echo 'Vault Container Name: $VAULT_CONTAINER_NAME'"
+
       - name: Test
         run: nix develop --impure .#ci -c make test-e2e
         env:
