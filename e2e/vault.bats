@@ -1,4 +1,4 @@
-vault_container_name="vault"
+vault_dns_name="vault"
 
 setup() {
   bats_load_library bats-support
@@ -41,8 +41,8 @@ setup_pod() {
 }
 
 add_secrets_to_vault() {
-  docker exec "$vault_container_name" vault kv put secret/test/mysql MYSQL_PASSWORD=3xtr3ms3cr3t
-  docker exec "$vault_container_name" vault kv put secret/test/aws AWS_ACCESS_KEY_ID=secretId AWS_SECRET_ACCESS_KEY=s3cr3t
+  docker exec "$vault_dns_name" vault kv put secret/test/mysql MYSQL_PASSWORD=3xtr3ms3cr3t
+  docker exec "$vault_dns_name" vault kv put secret/test/aws AWS_ACCESS_KEY_ID=secretId AWS_SECRET_ACCESS_KEY=s3cr3t
 }
 
 teardown() {
@@ -58,8 +58,8 @@ stop_vault() {
 }
 
 remove_secrets_from_vault() {
-  docker exec "$vault_container_name" vault kv delete secret/test/mysql
-  docker exec "$vault_container_name" vault kv delete secret/test/aws
+  docker exec "$vault_dns_name" vault kv delete secret/test/mysql
+  docker exec "$vault_dns_name" vault kv delete secret/test/aws
 }
 
 assert_output_contains() {
