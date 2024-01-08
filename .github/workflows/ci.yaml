@@ -221,6 +221,9 @@ jobs:
   e2e-test:
     name: E2E test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        vault_version: ["1.11.12", "1.12.8", "1.13.4", "1.14.1"]
 
     steps:
       - name: Checkout repository
@@ -250,3 +253,5 @@ jobs:
 
       - name: Test
         run: nix develop --impure .#ci -c make test-e2e
+        env:
+          VAULT_VERSION: ${{ matrix.vault_version }}
