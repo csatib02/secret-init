@@ -53,7 +53,7 @@ jobs:
       vault:
         image: hashicorp/vault:${{ matrix.vault_version }}
         env:
-          SKIP_SETCAP: true
+          SKIP_SETCAP: "true"
           VAULT_ADDR: http://127.0.0.1:8200
           VAULT_TOKEN: 227e1cce-6bf7-30bb-2d2a-acc854318caf
           VAULT_DEV_ROOT_TOKEN_ID: 227e1cce-6bf7-30bb-2d2a-acc854318caf
@@ -229,7 +229,7 @@ jobs:
       vault:
         image: hashicorp/vault:${{ matrix.vault_version }}
         env:
-          SKIP_SETCAP: true
+          SKIP_SETCAP: "true"
           VAULT_ADDR: http://127.0.0.1:8200
           VAULT_TOKEN: 227e1cce-6bf7-30bb-2d2a-acc854318caf
           VAULT_DEV_ROOT_TOKEN_ID: 227e1cce-6bf7-30bb-2d2a-acc854318caf
