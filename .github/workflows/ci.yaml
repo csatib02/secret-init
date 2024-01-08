@@ -262,7 +262,7 @@ jobs:
       - name: Prepare Nix shell
         run: nix develop --impure .#ci
 
-      - name: E2E test
-        run: nix develop --impure .#ci -c make e2e-test
+      - name: Test
+        run: nix develop --impure .#ci -c make test-e2e
         env:
           VAULT_VERSION: ${{ matrix.vault_version }}
