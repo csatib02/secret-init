@@ -6,7 +6,6 @@ setup() {
 
   start_vault
 
-  cd ..
   setup_pod
      
   run go build

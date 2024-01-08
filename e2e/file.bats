@@ -2,9 +2,8 @@ setup() {
   bats_load_library bats-support
   bats_load_library bats-assert
 
-  cd ..
   setup_pod
-  
+
   run go build
   assert_success
 }
@@ -27,7 +26,6 @@ teardown() {
   run_output=$(./secret-init env | grep Secret)
   assert_success
   expected_output="Secret=secret-value"
-
 
   assert_equal "$run_output" "$expected_output"
 }

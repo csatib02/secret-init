@@ -43,6 +43,10 @@ check: test lint ## Run checks (tests and linters)
 test: ## Run tests
 	go test -race -v ./...
 
+.PHONY: test-e2e
+test-e2e: ## Run e2e tests
+	bats e2e
+
 .PHONY: lint
 lint: lint-go lint-docker lint-yaml
 lint: ## Run linters
