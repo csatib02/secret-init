@@ -1,4 +1,4 @@
-vault_dns_name="vault"
+vault_container_name="vault"
 
 setup() {
   bats_load_library bats-support
@@ -7,8 +7,7 @@ setup() {
   start_vault
 
   setup_pod
-  docker-compose logs
-  docker-compose ps   
+
   run go build
   assert_success
 }
@@ -20,7 +19,7 @@ start_vault() {
   max_attempts=${MAX_ATTEMPTS:-10}
 
   for ((attempts = 0; attempts < max_attempts; attempts++)); do
-    if docker-compose exec -T vault vault status > /dev/null 2>&1; then
+    if docker-compose exec -T "$vault_container_name"  vault status > /dev/null 2>&1; then
       break
     fi
     sleep 1
@@ -42,8 +41,8 @@ setup_pod() {
 }
 
 add_secrets_to_vault() {
-  docker exec "$vault_dns_name" vault kv put secret/test/mysql MYSQL_PASSWORD=3xtr3ms3cr3t
-  docker exec "$vault_dns_name" vault kv put secret/test/aws AWS_ACCESS_KEY_ID=secretId AWS_SECRET_ACCESS_KEY=s3cr3t
+  docker exec "$vault_container_name" vault kv put secret/test/mysql MYSQL_PASSWORD=3xtr3ms3cr3t
+  docker exec "$vault_container_name" vault kv put secret/test/aws AWS_ACCESS_KEY_ID=secretId AWS_SECRET_ACCESS_KEY=s3cr3t
 }
 
 teardown() {
@@ -59,8 +58,8 @@ stop_vault() {
 }
 
 remove_secrets_from_vault() {
-  docker exec "$vault_dns_name" vault kv delete secret/test/mysql
-  docker exec "$vault_dns_name" vault kv delete secret/test/aws
+  docker exec "$vault_container_name" vault kv delete secret/test/mysql
+  docker exec "$vault_container_name" vault kv delete secret/test/aws
 }
 
 assert_output_contains() {
