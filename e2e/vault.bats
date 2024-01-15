@@ -1,4 +1,4 @@
-vault_container_name="vault"
+vault_container_name="secret-init-vault-1"
 
 setup() {
   bats_load_library bats-support
