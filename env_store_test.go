@@ -58,7 +58,7 @@ func TestEnvStore_GetPathsFor(t *testing.T) {
 
 			envStore := NewEnvStore()
 
-			paths, err := envStore.GetProviderPaths(ttp.provider)
+			paths, err := envStore.GetProviderPaths()
 			if err != nil {
 				assert.EqualError(t, err, ttp.err.Error(), "Unexpected error message")
 			}
@@ -139,7 +139,7 @@ func TestEnvStore_GetProviderSecrets(t *testing.T) {
 
 			envStore := NewEnvStore()
 
-			secretsEnv, err := envStore.ConvertProviderSecrets(ttp.provider, ttp.secrets)
+			secretsEnv, err := envStore.GetProviderSecrets(make(map[string][]string))
 			if err != nil {
 				assert.EqualError(t, ttp.err, err.Error(), "Unexpected error message")
 			}

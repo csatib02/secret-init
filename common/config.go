@@ -27,7 +27,6 @@ const (
 	LogServerEnv = "SECRET_INIT_LOG_SERVER"
 	DaemonEnv    = "SECRET_INIT_DAEMON"
 	DelayEnv     = "SECRET_INIT_DELAY"
-	ProviderEnv  = "SECRET_INIT_PROVIDER"
 )
 
 type Config struct {
@@ -46,6 +45,5 @@ func LoadConfig() (*Config, error) {
 		LogServer: os.Getenv(LogServerEnv),
 		Daemon:    cast.ToBool(os.Getenv(DaemonEnv)),
 		Delay:     cast.ToDuration(os.Getenv(DelayEnv)),
-		Provider:  os.Getenv(ProviderEnv),
 	}, nil
 }

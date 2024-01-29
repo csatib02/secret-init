@@ -34,14 +34,12 @@ func TestConfig(t *testing.T) {
 				JSONLogEnv:   "true",
 				LogServerEnv: "",
 				DaemonEnv:    "true",
-				ProviderEnv:  "vault",
 			},
 			wantConfig: &Config{
 				LogLevel:  "debug",
 				JSONLog:   true,
 				LogServer: "",
 				Daemon:    true,
-				Provider:  "vault",
 			},
 		},
 	}
