@@ -54,7 +54,7 @@ func TestEnvStore_GetPathsFor(t *testing.T) {
 	for _, tt := range tests {
 		ttp := tt
 		t.Run(ttp.name, func(t *testing.T) {
-			createEnvsForProvider(ttp.provider)
+			createEnvsForProvider(file.ProviderName)
 
 			envStore := NewEnvStore()
 
@@ -135,7 +135,7 @@ func TestEnvStore_GetProviderSecrets(t *testing.T) {
 	for _, tt := range tests {
 		ttp := tt
 		t.Run(ttp.name, func(t *testing.T) {
-			createEnvsForProvider(ttp.provider)
+			createEnvsForProvider(file.ProviderName)
 
 			envStore := NewEnvStore()
 
@@ -151,8 +151,8 @@ func TestEnvStore_GetProviderSecrets(t *testing.T) {
 	}
 }
 
-func createEnvsForProvider(provider provider.Provider) {
-	switch provider.GetProviderName() {
+func createEnvsForProvider(providerName string) {
+	switch providerName {
 	case vault.ProviderName:
 		os.Setenv("MYSQL_PASSWORD", "vault:secret/data/test/mysql#MYSQL_PASSWORD")
 		os.Setenv("AWS_SECRET_ACCESS_KEY", "vault:secret/data/test/aws#AWS_SECRET_ACCESS_KEY")

@@ -26,6 +26,11 @@ import (
 	"github.com/bank-vaults/secret-init/provider/vault"
 )
 
+var supportedProviders = []string{
+	file.ProviderName,
+	vault.ProviderName,
+}
+
 // EnvStore is a helper for managing interactions between environment variables and providers,
 // including tasks like extracting and converting provider-specific paths and secrets.
 type EnvStore struct {
@@ -51,8 +56,8 @@ func (s *EnvStore) GetProviderPaths() (map[string][]string, error) {
 	providerPaths := make(map[string][]string)
 
 	for envKey, path := range s.data {
-		provider, path := getProviderPath(path)
-		switch provider {
+		providerName, path := getProviderPath(path)
+		switch providerName {
 		case file.ProviderName:
 			_, ok := providerPaths[file.ProviderName]
 			if !ok {
@@ -78,11 +83,12 @@ func (s *EnvStore) GetProviderPaths() (map[string][]string, error) {
 
 // GetProviderSecrets creates a new provider for each detected provider using a specified config.
 // It then asynchronously loads secrets using each provider and it's corresponding paths.
-// The results from each provider are combined into a unified map.
+// The secrets from each provider are then placed into a map with the provider name as the key.
 func (s *EnvStore) GetProviderSecrets(providerPaths map[string][]string) (map[string][]provider.Secret, error) {
 	var wg sync.WaitGroup
 	var mu sync.Mutex
-	errCh := make(chan error, 2)
+	// At most, we will have one error per provider
+	errCh := make(chan error, len(supportedProviders))
 	providerSecrets := make(map[string][]provider.Secret)
 
 	for providerName, paths := range providerPaths {
@@ -111,10 +117,8 @@ func (s *EnvStore) GetProviderSecrets(providerPaths map[string][]string) (map[st
 	}
 
 	// Wait for all providers to finish
-	go func() {
-		wg.Wait()
-		close(errCh)
-	}()
+	wg.Wait()
+	close(errCh)
 
 	// Check for errors
 	for err := range errCh {
@@ -200,8 +204,8 @@ func createSecretEnvsFrom(envs map[string]string, secrets []provider.Secret) ([]
 	// by using the secret path
 	reversedEnvs := make(map[string]string)
 	for envKey, path := range envs {
-		p, path := getProviderPath(path)
-		if p != "" {
+		providerName, path := getProviderPath(path)
+		if providerName != "" {
 			reversedEnvs[path] = envKey
 		}
 	}
