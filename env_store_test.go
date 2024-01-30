@@ -63,7 +63,6 @@ func TestEnvStore_GetProviderPaths(t *testing.T) {
 }
 
 func TestEnvStore_GetProviderSecrets(t *testing.T) {
-	// Only test with file provider, vault provider is covered by e2e tests
 	secretFile := newSecretFile(t, "secretId")
 	defer os.Remove(secretFile)
 
