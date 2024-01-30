@@ -51,11 +51,7 @@ func main() {
 
 	envStore := NewEnvStore()
 
-	providerPaths, err := envStore.GetProviderPaths()
-	if err != nil {
-		slog.Error(fmt.Errorf("failed to extract paths: %w", err).Error())
-		os.Exit(1)
-	}
+	providerPaths := envStore.GetProviderPaths()
 
 	providerSecrets, err := envStore.GetProviderSecrets(providerPaths)
 	if err != nil {

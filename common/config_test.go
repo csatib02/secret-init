@@ -50,16 +50,12 @@ func TestConfig(t *testing.T) {
 			for envKey, envVal := range ttp.env {
 				os.Setenv(envKey, envVal)
 			}
+			defer os.Clearenv()
 
 			config, err := LoadConfig()
 			assert.Nil(t, err, "Unexpected error")
 
 			assert.Equal(t, ttp.wantConfig, config, "Unexpected config")
-
-			// unset envs for the next test
-			for envKey := range ttp.env {
-				os.Unsetenv(envKey)
-			}
 		})
 	}
 }

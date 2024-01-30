@@ -52,7 +52,7 @@ func NewEnvStore() *EnvStore {
 }
 
 // GetProviderPaths returns a map of secret paths for each provider
-func (s *EnvStore) GetProviderPaths() (map[string][]string, error) {
+func (s *EnvStore) GetProviderPaths() map[string][]string {
 	providerPaths := make(map[string][]string)
 
 	for envKey, path := range s.data {
@@ -78,7 +78,7 @@ func (s *EnvStore) GetProviderPaths() (map[string][]string, error) {
 		}
 	}
 
-	return providerPaths, nil
+	return providerPaths
 }
 
 // GetProviderSecrets creates a new provider for each detected provider using a specified config.
@@ -194,7 +194,7 @@ func newProvider(providerName string) (provider.Provider, error) {
 		return provider, nil
 
 	default:
-		return nil, fmt.Errorf("provider %s not supported", providerName)
+		return nil, fmt.Errorf("provider %s is not supported", providerName)
 	}
 }
 
