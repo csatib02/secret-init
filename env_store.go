@@ -16,6 +16,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -121,10 +122,14 @@ func (s *EnvStore) GetProviderSecrets(providerPaths map[string][]string) (map[st
 	close(errCh)
 
 	// Check for errors
-	for err := range errCh {
-		if err != nil {
-			return nil, err
+	var errs error
+	for e := range errCh {
+		if e != nil {
+			errs = errors.Join(errs, e)
 		}
+	}
+	if errs != nil {
+		return nil, errs
 	}
 
 	return providerSecrets, nil
