@@ -47,6 +47,11 @@ test: ## Run tests
 lint: lint-go lint-docker lint-yaml
 lint: ## Run linters
 
+.PHONY: test-e2e
+test-e2e: ## Run e2e tests
+	@export BATS_LIB_PATH=${PWD}/bin/bats-core/libexec/bats-core/lib && \
+	bats e2e
+
 .PHONY: lint-go
 lint-go:
 	golangci-lint run $(if ${CI},--out-format github-actions,)
